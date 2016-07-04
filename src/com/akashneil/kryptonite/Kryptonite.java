@@ -14,39 +14,53 @@
 
 package com.akashneil.kryptonite;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Kryptonite {
 
-	public Kryptonite() throws FileNotFoundException {
+	public Kryptonite() throws IOException {
 
-		File original = new File("original.txt");
-		Scanner fileScanner = new Scanner(original);
+		File originalFile = new File("file.txt");
+		Scanner fileScanner = new Scanner(originalFile);
+		//PrintStream stream = new PrintStream(originalFile);
+	
+		FileWriter fileWriter = new FileWriter(originalFile, true);
+		BufferedWriter buffer = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(buffer);
 
 		String store = "";
 
 		while (fileScanner.hasNext()) {
 
 			store = fileScanner.nextLine();
-			// System.out.println(store);
+			
 		}
 
-		StringBuffer password = new StringBuffer(store);
+		StringBuffer textToEncrypt = new StringBuffer(store);
 
-		for (int i = 0; i < password.length(); i++) {
+		for (int i = 0; i < textToEncrypt.length(); i++) {
 			int temp = 0;
-			temp = (int) password.charAt(i);
-			temp = temp * 2;
-			password.setCharAt(i, (char) temp);
+			temp = (int) textToEncrypt.charAt(i);
+			temp = temp + 1;
+			textToEncrypt.setCharAt(i, (char) temp);
 
 		}
-		System.out.println(password);
+		System.out.println(textToEncrypt);
+		
+		printWriter.print("");
+		printWriter.print(textToEncrypt.toString());
+		
 		fileScanner.close();
+		printWriter.close();
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		new Kryptonite();
 	}
 
